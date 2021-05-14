@@ -34,14 +34,14 @@ $(document).on("click", "#btnSave", function(event)
 				dataType : "text",  
 				complete : function(response, status)  
 				{   
-					onFundSaveComplete(response.responseText, status);  
+					onItemSaveComplete(response.responseText, status);  
 					
 				} 
 			
 		}); 
 }); 
 		
-function onFundSaveComplete(response, status) 
+function onItemSaveComplete(response, status) 
 {  
 	if (status == "success")  
 	{   
@@ -70,7 +70,7 @@ function onFundSaveComplete(response, status)
 		} 
 
 		$("#hidFundIDSave").val("");  
-		$("#formFund")[0].reset(); 
+		$("#formItem")[0].reset(); 
 		
 }
 
@@ -80,7 +80,7 @@ $(document).on("click", ".btnRemove", function(event)
 	{   
 		url : "fundAPI",   
 		type : "DELETE",   
-		data : "resID=" + $(this).data("itemid"),   
+		data : "fundID=" + $(this).data("fundID"),   
 		dataType : "text",   
 		complete : function(response, status)   
 		{    
@@ -121,11 +121,12 @@ function onItemDeleteComplete(response, status)
 
 $(document).on("click", ".btnUpdate", function(event) 
 {     
-	$("#hidFundIDSave").val($(this).closest("tr").find('#hidFundIDUpdate').val());     
-	$("#resName").val($(this).closest("tr").find('td:eq(0)').text());     
-	$("#famount").val($(this).closest("tr").find('td:eq(1)').text());     
-	$("#subject").val($(this).closest("tr").find('td:eq(2)').text());     
-	$("#desc").val($(this).closest("tr").find('td:eq(3)').text()); 
+	$("#hidFundIDSave").val($(this).closest("tr").find('#hidFundIDUpdate').val());
+	$("#resID").val($(this).closest("tr").find('td:eq(0)').text());     
+	$("#resName").val($(this).closest("tr").find('td:eq(1)').text());     
+	$("#famount").val($(this).closest("tr").find('td:eq(2)').text());     
+	$("#subject").val($(this).closest("tr").find('td:eq(3)').text());     
+	$("#description").val($(this).closest("tr").find('td:eq(4)').text()); 
 }); 
 
 
@@ -134,21 +135,27 @@ function validateItemForm()
 	// CODE  
 	if ($("#resID").val().trim() == "")  
 	{   
-		return "Insert Item Code.";   
+		return "Insert researcher ID.";   
 	}
 
 	 
 	 // NAME  
 	if ($("#resName").val().trim() == "")  
 	{   
-		return "Insert Item Name.";  
+		return "Insert researcher Name.";  
 	}
 	
 	if ($("#famount").val().trim() == "")  
 	{   
 		return "Insert Item Price.";  
 	} 
-	 
+	
+	if ($("#subject").val().trim() == "")  
+	{   
+		return "Insert subject.";  
+	}
+	
+	
 	 // is numerical value  
 	var tmpPrice = $("#famount").val().trim();  
 	if (!$.isNumeric(tmpPrice))  
@@ -161,9 +168,9 @@ function validateItemForm()
 	$("#famount").val(parseFloat(tmpPrice).toFixed(2)); 
 	 
 	 // DESCRIPTION------------------------  
-	if ($("#Desc").val().trim() == "")  
+	if ($("#desc").val().trim() == "")  
 	{   
-		return "Insert Item Description.";  
+		return "Insert Fund Description.";  
 		
 	} 
 	 

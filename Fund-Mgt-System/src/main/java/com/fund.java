@@ -18,7 +18,7 @@ public class fund {
 		return con;
 	}
 
-	public String insertfund(String resID, String resName, String amount, String subject, String desc) {
+	public String insertfund(String resID,String resName,String famount, String subject, String desc) {
 		String output = "";
 		System.out.println("insert method called");
 		try {
@@ -27,15 +27,16 @@ public class fund {
 				return "Error while connecting to the database";
 			}
 			// create a prepared statement
-			String query = "insert into funds (resID,resName,famount,subject,description)" + " values (?,?,?,?,?)";
+			String query = "insert into funds (fundID,resID,resName,fAmount,subject,description)" + " values (?,?,?,?,?,?)";
 
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 			// binding values
-			preparedStmt.setString(1, resID);
-			preparedStmt.setString(2, resName);
-			preparedStmt.setString(3, amount);
-			preparedStmt.setString(4, subject);
-			preparedStmt.setString(5, desc);
+			preparedStmt.setInt(1, 0);
+			preparedStmt.setString(2, resID);
+			preparedStmt.setString(3, resName);
+			preparedStmt.setString(4, famount);
+			preparedStmt.setString(5, subject);
+			preparedStmt.setString(6, desc);
 			
 			// execute the statement
 			preparedStmt.execute();
@@ -66,22 +67,24 @@ public class fund {
 			ResultSet rs = stmt.executeQuery(query);
 			// iterate through the rows in the result set
 			while (rs.next()) {
+				String fundID = Integer.toString(rs.getInt("fundID"));
 				String resID = Integer.toString(rs.getInt("resID"));
 				String resName = rs.getString("resName");
-				Double amount = rs.getDouble("famount");
+				Double amount = rs.getDouble("fAmount");
 				String subject =rs.getString("subject");
 				String desc = rs.getString("Description");
 				// Add into the html table
-				output += "<tr><td><input id='hidItemIDUpdate' name='hidItemIDUpdate' type='hidden' value='" + resID
-						+ "'>" + resName + "</td>";
+				output += "<tr><td><input id='hidFundIDUpdate' name='hidFundIDUpdate' type='hidden' value='" + fundID
+						+ "'>" + resID + "</td>";
+				output += "<td>" + resName + "</td>";
 				output += "<td>" + amount + "</td>";
 				output += "<td>" + subject + "</td>";
 				output += "<td>" + desc + "</td>";
 				// buttons
 				output += "<td><input name='btnUpdate' type='button' value='Update' "
-						+ "class='btnUpdate btn btn-secondary' data-itemid='" + resID + "'></td>"
+						+ "class='btnUpdate btn btn-secondary' data-itemid='" + fundID + "'></td>"
 						+ "<td><input name='btnRemove' type='button' value='Remove' "
-						+ "class='btnRemove btn btn-danger' data-itemid='" + resID + "'></td></tr>";
+						+ "class='btnRemove btn btn-danger' data-itemid='" + fundID + "'></td></tr>";
 
 			}
 			con.close();
@@ -94,7 +97,7 @@ public class fund {
 		return output;
 	}
 
-	public String deleteFund(String resID) {
+	public String deleteFund(String fundID) {
 		System.out.println("delete method called");
 		String output = "";
 		try {
@@ -103,10 +106,10 @@ public class fund {
 				return "Error while connecting to the database for deleting.";
 			}
 			// create a prepared statement
-			String query = "delete from funds where resID=?";
+			String query = "delete from funds where fundID=?";
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 			// binding values
-			preparedStmt.setInt(1, Integer.parseInt(resID));
+			preparedStmt.setInt(1, Integer.parseInt(fundID));
 
 			// execute the statement
 			preparedStmt.execute();
@@ -123,7 +126,7 @@ public class fund {
 		return output;
 	}
 
-	public String updateFund(String resID, String resName, String amount, String subject, String desc) {
+	public String updateFund(String fundID,String resID, String resName, String amount, String subject, String desc) {
 		String output = "";
 		try {
 			Connection con = connect();
@@ -131,14 +134,15 @@ public class fund {
 				return "Error while connecting to the database for updating.";
 			}
 			// create a prepared statement
-			String query = "UPDATE funds SET resName=?,famount=?,subject=?,description=? WHERE resID=?";
+			String query = "UPDATE funds SET resID=?,resName=?,famount=?,subject=?,description=? WHERE fundID=?";
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 			// binding values
-			preparedStmt.setString(1, resName);
-			preparedStmt.setDouble(2, Double.parseDouble(amount));
-			preparedStmt.setString(3, subject);
-			preparedStmt.setString(4, desc);
-			preparedStmt.setInt(5, Integer.parseInt(resID));
+			preparedStmt.setString(1, resID);
+			preparedStmt.setString(2, resName);
+			preparedStmt.setDouble(3, Double.parseDouble(amount));
+			preparedStmt.setString(4, subject);
+			preparedStmt.setString(5, desc);
+			preparedStmt.setInt(6, Integer.parseInt(fundID));
 
 			// execute the statement
 			preparedStmt.execute();

@@ -26,47 +26,41 @@ public class fundAPI extends HttpServlet {
 	
     public fundAPI() {
         super();
-        // TODO Auto-generated constructor stub
+        
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		String output = fundObj.insertfund(request.getParameter("resID"), request.getParameter("reName"),
-				request.getParameter("famount"), request.getParameter("subject"), request.getParameter("description"));
+		
+		String output = fundObj.insertfund(request.getParameter("resID"), request.getParameter("resName"),
+				       request.getParameter("fAmount"), request.getParameter("subject"), request.getParameter("description"));
 		response.getWriter().write(output);
+		
+		//request.getParameter("fundID")
 	}
 
-	/**
-	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
-	 */
+	
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 		Map paras = getParasMap(request);
-		String output = fundObj.updateFund( paras.get("hidFundIDSave").toString(),
-				paras.get("resName").toString(), paras.get("famount").toString(), paras.get("subject").toString(), paras.get("description").toString());
+		String output = fundObj.updateFund( paras.get("hidFundIDSave").toString(), paras.get("resID").toString(),
+				paras.get("resName").toString(), paras.get("fAmount").toString(), paras.get("subject").toString(), paras.get("description").toString());
 		response.getWriter().write(output);
 	}
 	
 	//paras.get("resID").toString(),
 
-	/**
-	 * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
-	 */
+	
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 		Map paras = getParasMap(request);
-		String output = fundObj.deleteFund(paras.get("resID").toString());
+		String output = fundObj.deleteFund(paras.get("fundID").toString());
 		response.getWriter().write(output);
 	}
 	
